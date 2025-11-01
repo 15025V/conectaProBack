@@ -1,0 +1,36 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}model Categoria {
+  id           Int           @id @default(autoincrement())
+  nombre       String
+  profesionales Profesional[]
+}
+
+model Profesional {
+  id          Int       @id @default(autoincrement())
+  nombre      String
+  modalidad   String
+  categoria   Categoria @relation(fields: [categoriaId], references: [id])
+  categoriaId Int
+  descripcion String?   //  breve descripción profesional
+  experiencia Int?      //  años de experiencia
+  ubicacion   String?   //  ciudad o estado
+  correo      String?   //  contacto
+  telefono    String?   //  contacto
+  imagenUrl   String?   //  imagen personalizada
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
