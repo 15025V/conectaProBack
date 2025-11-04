@@ -4,10 +4,7 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
-generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
-}
+
 
 datasource db {
   provider = "postgresql"
@@ -31,6 +28,14 @@ model Profesional {
   telefono    String?   //  contacto
   imagenUrl   String?   //  imagen personalizada
   createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  updatedAt   DateTime  @updatedAt  
+}
+model Usuario {
+  id       Int    @id @default(autoincrement())
+  nombre   String
+  correo   String @unique
+  password String
+  rol      String @default("usuario") // puede ser "admin" o "usuario"
+  
 }
 

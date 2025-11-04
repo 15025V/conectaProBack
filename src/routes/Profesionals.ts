@@ -7,17 +7,58 @@ const prisma = new PrismaClient();
 
 // Crear profesional
 router.post("/", async (req, res) => {
-  const { nombre, modalidad, categoriaId } = req.body;
+  const {
+    nombre,
+    modalidad,
+    categoriaId,
+    correo,
+    telefono,
+    descripcion,
+    experiencia,
+    ubicacion,
+    imagenUrl
+  } = req.body;
+
+  // Validación básica
+  if (!nombre || !modalidad || !categoriaId) {
+    return res.status(400).json({ error: "Faltan campos obligatorios: nombre, modalidad o categoría" });
+  }
+
   try {
-    const profesional = await prisma.profesional.create({
-      data: { nombre, modalidad, categoriaId },
-    });
+const profesional = await prisma.profesional.create({
+ data: {
+  nombre,
+  modalidad,
+  categoriaId: Number(categoriaId),
+  descripcion: descripcion || null,
+  experiencia: experiencia ? Number(experiencia) : null,
+  ubicacion: ubicacion || null,
+  correo: correo || null,
+  telefono: telefono || null,
+  imagenUrl: imagenUrl || null
+}
+});
+
+
     res.json(profesional);
   } catch (error) {
     console.error("❌ Error al crear profesional:", error);
     res.status(500).json({ error: "Error al crear profesional" });
   }
 });
+
+// router.post("/", async (req, res) => {
+//   const { nombre, modalidad, categoriaId } = req.body;
+//   try {
+//     const profesional = await prisma.profesional.create({
+//       data: { nombre, modalidad, categoriaId },
+//     });
+//     res.json(profesional);
+//   } catch (error) {
+//     console.error(" Error al crear profesional:", error);
+//     res.status(500).json({ error: "Error al crear profesional" });
+//   }
+// });
 
 // Obtener todos
 router.get("/", async (_req, res) => {
@@ -40,10 +81,10 @@ router.get("/:id", async (req, res) => {
 // Actualizar
 router.put("/:id", async (req, res) => {
   const { id } = req.params;
-  const { nombre, modalidad, categoriaId } = req.body;
+  const { nombre, modalidad, categoriaId, descripcion, experiencia, ubicacion, correo, telefono } = req.body;
   const profesional = await prisma.profesional.update({
     where: { id: Number(id) },
-    data: { nombre, modalidad, categoriaId },
+    data: { nombre, modalidad, categoriaId, descripcion, experiencia, ubicacion,  correo, telefono },
   });
   res.json(profesional);
 });
