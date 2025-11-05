@@ -20,21 +20,29 @@ Este backend forma parte de **CONECTAPRO**, una plataforma para conectar profesi
 ```bash
 git clone https://github.com/tu-usuario/conectapro-backend.git
 cd conectapro-backend
+```
 
-Instala dependencias:
+```plaintext 
+    └── src/
+        ├── index.ts
+        ├── middlewares/
+        │   └── verifyToken.ts
+        └── routes/
+            ├── auth.ts
+            ├── Categorias.ts
+            └── Profesionals.ts
+```
 
-bash
-npm install
-Configura tu archivo .env:
+# Configura tu archivo .env:
 
 env
 DATABASE_URL="postgresql://usuario:contraseña@localhost:5432/conectapro"
 PORT=3000
-Ejecuta migraciones:
+Ejecuta las migraciones iniciales:
 
-bash
+```bash
 npx prisma migrate dev --name init
-Inicia el servidor:
+Inicia el servidor de desarrollo:
 
 bash
 npm run dev
@@ -44,6 +52,13 @@ GET /api/profesionales – Lista todos los profesionales
 
 POST /api/profesionales – Crea un nuevo profesional
 
+GET /api/profesionales/:id – Obtiene un profesional por ID
+
 PUT /api/profesionales/:id – Actualiza un profesional existente
 
-GET /api/profesionales/:id – Obtiene un profesional por ID
+DELETE /api/profesionales/:id – Elimina un profesional
+```
+
+#🛠️ Herramientas de desarrollo
+Postman – Para probar los endpoints
+
